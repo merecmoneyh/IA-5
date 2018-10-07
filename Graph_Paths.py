@@ -6,6 +6,10 @@ class Vertice:
     def __init__(self,nombre):
         self.id = nombre
         self.conexiones = {}
+        self.visited = False
+        self.distance = -1
+        self.parent = None
+        self.weight = -1
 
     def insertarVecino(self,vecino,Peso=0):
         self.conexiones[vecino] = Peso
@@ -15,6 +19,29 @@ class Vertice:
 
     def obtenerPeso(self,vecino):
         return self.conexiones[vecino]
+
+    def setParent(self,vertex):
+        if vertex in self.conexiones:
+            self.parent = vertex
+
+    def setDistance(self, value):
+        self.distance = value
+
+    def setVisited(self, value):
+        self.visited = value
+
+    def setWeight(self, value):
+        self.weight = value
+
+    def getParent(self):
+        return self.parent
+
+    def getDistance(self):
+        return self.distance
+
+    def getVisited(self):
+        return self.visited
+
 '''Clase Grafica es donde se crea el Grafica con todos sus vértices, tiene sus métodos que permiten insertar un nuevo vértice,
 una nueva arista, el método __iter__ para facilitar la iteración sobre todos los objetos vértice de un Grafica en particular.'''
 class Grafica:
@@ -73,7 +100,24 @@ class Grafica:
     def ResultadoBellman(self):
         for i in self.listaBellman: print("Vertice "+str(i)+" Peso "+str(self.listaBellman[i][0])+" Predecesor "+str(self.listaBellman[i][1]))
 
-
+    def BreathFirstSearch(self,s):
+        #see if this vertex is a Graph's vertex
+        if s in self.listaVertices:
+            vertex = self.listaVertices[s]
+            vertex.setVisited(True)
+            vertex.setDistance(0)
+            #by default s parent is None
+            cola = []
+            cola.append(s)
+            while(len(cola) != 0):
+                current = self.listaVertices[cola[0]]
+                cola = cola[1:]
+                for i in current.conexiones.keys():
+                    if i.getVisited() != True:
+                        i.setVisited(True)
+                        i.setDistance(current.getDistance() + 1)
+                        i.setParent(current)
+                        cola.append(i.obtenerId())
 
 #Crea el Grafica
 g = Grafica()
@@ -99,7 +143,11 @@ g.insertarArista(5,6,9)
 g.insertarArista(6,1,14)
 g.insertarArista(6,3,2)
 g.insertarArista(6,5,9)
-#Llama al algoritmo Bellman Ford
-g.BellmanFord(1)
-#Plasma el resultado
-g.ResultadoBellman()
+
+
+print("Graph")
+
+g.BreathFirstSearch(1)
+
+for i in g.listaVertices.values():
+    print("key " + str(i.obtenerId()) + " distancia " + str(i.getDistance()))
