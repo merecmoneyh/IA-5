@@ -195,19 +195,19 @@ class Grafica:
         if (a in self.listaVertices):
             self.initialize_single_source(a)
             l = []
-            #for i in self.listaVertices.values():
-            #    l.append(i)
-            l.append(self.listaVertices[a])
+            for i in self.listaVertices.values():
+                l.append(i)
+            #l.append(self.listaVertices[a])
             heapDikstra = PriorityQueue(l)
             while (len(heapDikstra.heap) != 0):
                 current = heapDikstra.heap_extract_min()
-                #print(str(current) + " holo " + str(current.obtenerId()) + " w " + str(current.weight))
+                print(str(current) + " holo " + str(current.obtenerId()) + " w " + str(current.weight))
                 for i in current.conexiones.keys():
                     self.relax(current,i)
-                    if i.getVisited() == False:
-                        heapDikstra.heap.append(i)
+                    #if i.getVisited() == False:
+                    #    heapDikstra.heap.append(i)
                 #print(l)
-                current.setVisited(True)
+                #current.setVisited(True)
                 heapDikstra = PriorityQueue(heapDikstra.heap)
 
         for i in self.listaVertices.values():
@@ -273,4 +273,4 @@ for i in l:
         column = column + 1
     row = row + 1
 
-z.dijkstra(8)
+z.dijkstra(2)
