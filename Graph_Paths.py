@@ -38,6 +38,10 @@ class PriorityQueue:
             self.minHeapify(self.heap, i)
 
     def heap_extract_min(self):
+        #print("al principio")
+        #for i in self.heap:
+        #    print(str(i.obtenerId()) + " w " + str(i.weight))
+        #print("final")
         if len(self.heap) == 0:
             print("error")
             return -1
@@ -177,6 +181,39 @@ class Grafica:
                 i.setParent(None)
             vertex.setWeight(0)
 
+    def relax(self, a, b):
+        #print("hola b" + str(b.weight))
+        #print(a.conexiones)
+        #print(b)
+        w = a.obtenerPeso(b)
+        #print(" w " + str(w))
+        if b.weight > (a.weight + w):
+            b.weight = a.weight + w
+            b.setParent(a)
+
+    def dijkstra(self, a):
+        if (a in self.listaVertices):
+            self.initialize_single_source(a)
+            l = []
+            #for i in self.listaVertices.values():
+            #    l.append(i)
+            l.append(self.listaVertices[a])
+            heapDikstra = PriorityQueue(l)
+            while (len(heapDikstra.heap) != 0):
+                current = heapDikstra.heap_extract_min()
+                #print(str(current) + " holo " + str(current.obtenerId()) + " w " + str(current.weight))
+                for i in current.conexiones.keys():
+                    self.relax(current,i)
+                    if i.getVisited() == False:
+                        heapDikstra.heap.append(i)
+                #print(l)
+                current.setVisited(True)
+                heapDikstra = PriorityQueue(heapDikstra.heap)
+
+        for i in self.listaVertices.values():
+            print( "hola " + str(i.obtenerId()) + " " + str(i.weight) + " parent "
+            + str(i.getParent()))
+
 #Crea el Grafica
 g = Grafica()
 #Inserta Vertices
@@ -204,23 +241,36 @@ g.insertarArista(6,5,9)
 
 
 print("Graph")
+#for i in g.listaVertices.values():
+#    print( str(i) + " hola " + str(i.obtenerId()) + " " + str(i.weight) + " parent "
+#    + str(i.getParent()))
+#print("Ddddddddddddd")
+g.dijkstra(1)
+#print(g.listaVertices)
 
-g.BreathFirstSearch(1)
+print("Grafo z")
 
-for i in g.listaVertices.values():
-    print("key " + str(i.obtenerId()) + " distancia " + str(i.getDistance()))
+z = Grafica()
+l = [[0, 4, 0, 0, 0, 0, 0, 8, 0],
+[4, 0, 8, 0, 0, 0, 0, 11, 0],
+[0, 8, 0, 7, 0, 4, 0, 0, 2],
+[0, 0, 7, 0, 9, 14, 0, 0, 0],
+[0, 0, 0, 9, 0, 10, 0, 0, 0],
+[0, 0, 4, 14, 10, 0, 2, 0, 0],
+[0, 0, 0, 0, 0, 2, 0, 1, 6],
+[8, 11, 0, 0, 0, 0, 1, 0, 7],
+[0, 0, 2, 0, 0, 0, 6, 7, ],
+]
 
-print("Heap")
-l = []
-g.initialize_single_source(6)
-for i in g.listaVertices.values():
-    l.append(i)
+for i in range(9):
+    z.insertarVertice(i)
+row = 0
+for i in l:
+    column = 0
+    for j in i:
+        if j != 0:
+            z.insertarArista(row,column,j)
+        column = column + 1
+    row = row + 1
 
-heap1 = PriorityQueue(l)
-for i in heap1.heap:
-    print(i.obtenerId())
-
-print("extract")
-
-for i in range(len(heap1.heap)):
-    print(heap1.heap_extract_min().obtenerId())
+z.dijkstra(8)
