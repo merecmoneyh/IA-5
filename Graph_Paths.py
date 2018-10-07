@@ -6,9 +6,6 @@ class PriorityQueue:
         self.heap = heap
         self.build_minHeapify()
 
-    def parent(self, i):
-        return (i - 1)//2
-
     def leftChild(self, i):
         return 2*i + 1
 
@@ -38,10 +35,6 @@ class PriorityQueue:
             self.minHeapify(self.heap, i)
 
     def heap_extract_min(self):
-        #print("al principio")
-        #for i in self.heap:
-        #    print(str(i.obtenerId()) + " w " + str(i.weight))
-        #print("final")
         if len(self.heap) == 0:
             print("error")
             return -1
@@ -153,25 +146,6 @@ class Grafica:
     def ResultadoBellman(self):
         for i in self.listaBellman: print("Vertice "+str(i)+" Peso "+str(self.listaBellman[i][0])+" Predecesor "+str(self.listaBellman[i][1]))
 
-    def BreathFirstSearch(self,s):
-        #see if this vertex is a Graph's vertex
-        if s in self.listaVertices:
-            vertex = self.listaVertices[s]
-            vertex.setVisited(True)
-            vertex.setDistance(0)
-            #by default s parent is None
-            cola = []
-            cola.append(s)
-            while(len(cola) != 0):
-                current = self.listaVertices[cola[0]]
-                cola = cola[1:]
-                for i in current.conexiones.keys():
-                    if i.getVisited() != True:
-                        i.setVisited(True)
-                        i.setDistance(current.getDistance() + 1)
-                        i.setParent(current)
-                        cola.append(i.obtenerId())
-
     def initialize_single_source(self, s):
         if s in self.listaVertices:
             vertex = self.listaVertices[s]
@@ -182,11 +156,7 @@ class Grafica:
             vertex.setWeight(0)
 
     def relax(self, a, b):
-        #print("hola b" + str(b.weight))
-        #print(a.conexiones)
-        #print(b)
         w = a.obtenerPeso(b)
-        #print(" w " + str(w))
         if b.weight > (a.weight + w):
             b.weight = a.weight + w
             b.setParent(a)
@@ -197,22 +167,20 @@ class Grafica:
             l = []
             for i in self.listaVertices.values():
                 l.append(i)
-            #l.append(self.listaVertices[a])
             heapDikstra = PriorityQueue(l)
             while (len(heapDikstra.heap) != 0):
                 current = heapDikstra.heap_extract_min()
-                print(str(current) + " holo " + str(current.obtenerId()) + " w " + str(current.weight))
                 for i in current.conexiones.keys():
                     self.relax(current,i)
-                    #if i.getVisited() == False:
-                    #    heapDikstra.heap.append(i)
-                #print(l)
-                #current.setVisited(True)
                 heapDikstra = PriorityQueue(heapDikstra.heap)
 
+    def ResultadoDijkstra(self):
         for i in self.listaVertices.values():
-            print( "hola " + str(i.obtenerId()) + " " + str(i.weight) + " parent "
-            + str(i.getParent()))
+            print( "id " + str(i.obtenerId()) + " el peso es " + str(i.weight), end = " ")
+            if i.getParent() != None:
+                print(" parent " + str(i.getParent().obtenerId()))
+                continue
+            print(" parent " + str(None))
 
 #Crea el Grafica
 g = Grafica()
@@ -241,12 +209,8 @@ g.insertarArista(6,5,9)
 
 
 print("Graph")
-#for i in g.listaVertices.values():
-#    print( str(i) + " hola " + str(i.obtenerId()) + " " + str(i.weight) + " parent "
-#    + str(i.getParent()))
-#print("Ddddddddddddd")
 g.dijkstra(1)
-#print(g.listaVertices)
+g.ResultadoDijkstra()
 
 print("Grafo z")
 
@@ -273,4 +237,5 @@ for i in l:
         column = column + 1
     row = row + 1
 
-z.dijkstra(2)
+z.dijkstra(0)
+z.ResultadoDijkstra()
