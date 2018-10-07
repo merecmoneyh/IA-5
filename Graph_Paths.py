@@ -1,5 +1,43 @@
 import math
 
+class PriorityQueue:
+
+    def __init__(self, heap):
+        self.heap = heap
+        self.build_minHeapify()
+
+    def parent(self, i):
+        return (i - 1)//2
+
+    def leftChild(self, i):
+        return 2*i + 1
+
+    def rightChild(self, i):
+        return 2*i + 2
+
+    def minHeapify(self, l, i):
+        length = len(l)
+        left = self.leftChild(i)
+        right = self.rightChild(i)
+        parent = i
+        #list is like this [vertex0, vertex1]
+        if (left < length) and (l[left].weight < l[i].weight):
+            parent = left
+        if (right < length) and (l[right].weight < l[parent].weight):
+            parent = right
+        if parent != i:
+            tmp = l[parent]
+            l[parent] = l[i]
+            l[i] = tmp
+            return self.minHeapify(l, parent)
+
+    def build_minHeapify(self):
+        length = len(self.heap)
+        numberOfParents=(length//2) - 1
+        for i in range(numberOfParents, -1, -1):
+            self.minHeapify(self.heap, i)
+
+
 '''Clase Vertice encargada de crear los vértices del Grafica, contiene métodos que permiten insertar
 vecinos, obetner el Identificador del vérctice y el peso que existe entre éste y alguno adyacente'''
 class Vertice:
@@ -119,6 +157,15 @@ class Grafica:
                         i.setParent(current)
                         cola.append(i.obtenerId())
 
+    def initialize_single_source(self, s):
+        if s in self.listaVertices:
+            vertex = self.listaVertices[s]
+            for i in self.listaVertices.values():
+                i.setWeight(math.inf)
+                i.setVisited(False)
+                i.setParent(None)
+            vertex.setWeight(0)
+
 #Crea el Grafica
 g = Grafica()
 #Inserta Vertices
@@ -151,3 +198,13 @@ g.BreathFirstSearch(1)
 
 for i in g.listaVertices.values():
     print("key " + str(i.obtenerId()) + " distancia " + str(i.getDistance()))
+
+print("Heap")
+l = []
+g.initialize_single_source(6)
+for i in g.listaVertices.values():
+    l.append(i)
+
+heap1 = PriorityQueue(l)
+for i in heap1.heap:
+    print(i.obtenerId())
