@@ -37,6 +37,17 @@ class PriorityQueue:
         for i in range(numberOfParents, -1, -1):
             self.minHeapify(self.heap, i)
 
+    def heap_extract_min(self):
+        if len(self.heap) == 0:
+            print("error")
+            return -1
+        length = len(self.heap) - 1
+        min = self.heap[0]
+        self.heap[0] = self.heap[length]
+        self.heap = self.heap[:length]
+        self.minHeapify(self.heap, 0)
+        return min
+
 
 '''Clase Vertice encargada de crear los vértices del Grafica, contiene métodos que permiten insertar
 vecinos, obetner el Identificador del vérctice y el peso que existe entre éste y alguno adyacente'''
@@ -208,3 +219,8 @@ for i in g.listaVertices.values():
 heap1 = PriorityQueue(l)
 for i in heap1.heap:
     print(i.obtenerId())
+
+print("extract")
+
+for i in range(len(heap1.heap)):
+    print(heap1.heap_extract_min().obtenerId())
