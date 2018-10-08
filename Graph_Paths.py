@@ -4,10 +4,11 @@ class PriorityQueue:
 
     def __init__(self, heap):
         self.heap = heap
+        self.positions = {}
         self.build_minHeapify()
 
     def parent(self, i):
-        return (i-1)//2;
+        return (i-1)//2
 
     def leftChild(self, i):
         return 2*i + 1
@@ -20,7 +21,9 @@ class PriorityQueue:
         left = self.leftChild(i)
         right = self.rightChild(i)
         parent = i
-        #list is like this [vertex0, vertex1]
+        #agregar nueva posición de nodo
+        if len(l) > 0:
+            self.positions[l[parent].obtenerId()] = parent
         if (left < length) and (l[left].weight < l[i].weight):
             parent = left
         if (right < length) and (l[right].weight < l[parent].weight):
@@ -36,6 +39,11 @@ class PriorityQueue:
         numberOfParents=(length//2) - 1
         for i in range(numberOfParents, -1, -1):
             self.minHeapify(self.heap, i)
+        index = 0
+        for i in self.heap:
+            self.positions[i.obtenerId()] = index
+            index = index + 1
+        print(self.positions)
 
     def heap_extract_min(self):
         if len(self.heap) == 0:
@@ -50,16 +58,18 @@ class PriorityQueue:
         print("min " + str(min.obtenerId()))
         for i in self.heap:
             print(str(i.obtenerId()) + " weight " +str(i.weight) )
+        del self.positions[min.obtenerId()]
+        print(self.positions)
         return min
 
-    def max_heap_insert(self, value):
-        self.heap.append(value)
-        length = len(self.heap) - 1
-        while (length > 0) and (self.heap[self.parent(length)].weight > self.heap[length].weight):
-            tmp = self.heap[length]
-            self.heap[length] = self.heap[self.parent(length)]
-            self.heap[self.parent(length)] = tmp
-            length = self.parent(length)
+    def heap_increase_key(self, value):
+        position = self.positions[value.obtenerId()]
+        while (position > 0) and (self.heap[self.parent(position)].weight > self.heap[position].weight):
+            tmp = self.heap[position]
+            self.heap[position] = self.heap[self.parent(position)]
+            self.heap[self.parent(position)] = tmp
+            position = self.parent(position)
+
 '''Clase Vertice encargada de crear los vértices del Grafica, contiene métodos que permiten insertar
 vecinos, obetner el Identificador del vérctice y el peso que existe entre éste y alguno adyacente'''
 class Vertice:
@@ -174,16 +184,16 @@ class Grafica:
         if b.weight > (a.weight + w):
             b.weight = a.weight + w
             b.setParent(a)
-            heap.max_heap_insert(b)
+            heap.heap_increase_key(b)
 
 
     def dijkstra(self, a):
         if (a in self.listaVertices):
             self.initialize_single_source(a)
             l = []
-            #for i in self.listaVertices.values():
-            #    l.append(i)
-            l.append(self.listaVertices[a])
+            for i in self.listaVertices.values():
+                l.append(i)
+            #l.append(self.listaVertices[a])
             heapDikstra = PriorityQueue(l)
             while (len(heapDikstra.heap) != 0):
                 current = heapDikstra.heap_extract_min()
