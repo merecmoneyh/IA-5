@@ -6,6 +6,9 @@ class PriorityQueue:
         self.heap = heap
         self.build_minHeapify()
 
+    def parent(self, i):
+        return (i-1)//2;
+
     def leftChild(self, i):
         return 2*i + 1
 
@@ -43,9 +46,20 @@ class PriorityQueue:
         self.heap[0] = self.heap[length]
         self.heap = self.heap[:length]
         self.minHeapify(self.heap, 0)
+        print("hola")
+        print("min " + str(min.obtenerId()))
+        for i in self.heap:
+            print(str(i.obtenerId()) + " weight " +str(i.weight) )
         return min
 
-
+    def max_heap_insert(self, value):
+        self.heap.append(value)
+        length = len(self.heap) - 1
+        while (length > 0) and (self.heap[self.parent(length)].weight > self.heap[length].weight):
+            tmp = self.heap[length]
+            self.heap[length] = self.heap[self.parent(length)]
+            self.heap[self.parent(length)] = tmp
+            length = self.parent(length)
 '''Clase Vertice encargada de crear los vértices del Grafica, contiene métodos que permiten insertar
 vecinos, obetner el Identificador del vérctice y el peso que existe entre éste y alguno adyacente'''
 class Vertice:
@@ -155,24 +169,26 @@ class Grafica:
                 i.setParent(None)
             vertex.setWeight(0)
 
-    def relax(self, a, b):
+    def relax(self, a, b, heap):
         w = a.obtenerPeso(b)
         if b.weight > (a.weight + w):
             b.weight = a.weight + w
             b.setParent(a)
+            heap.max_heap_insert(b)
+
 
     def dijkstra(self, a):
         if (a in self.listaVertices):
             self.initialize_single_source(a)
             l = []
-            for i in self.listaVertices.values():
-                l.append(i)
+            #for i in self.listaVertices.values():
+            #    l.append(i)
+            l.append(self.listaVertices[a])
             heapDikstra = PriorityQueue(l)
             while (len(heapDikstra.heap) != 0):
                 current = heapDikstra.heap_extract_min()
                 for i in current.conexiones.keys():
-                    self.relax(current,i)
-                heapDikstra = PriorityQueue(heapDikstra.heap)
+                    self.relax(current, i, heapDikstra)
 
     def ResultadoDijkstra(self):
         for i in self.listaVertices.values():
