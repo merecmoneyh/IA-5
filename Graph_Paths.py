@@ -40,10 +40,10 @@ class PriorityQueue:
         for i in range(numberOfParents, -1, -1):
             self.minHeapify(self.heap, i)
         index = 0
+        #add postions for every node
         for i in self.heap:
             self.positions[i.obtenerId()] = index
             index = index + 1
-        print(self.positions)
 
     def heap_extract_min(self):
         if len(self.heap) == 0:
@@ -54,12 +54,7 @@ class PriorityQueue:
         self.heap[0] = self.heap[length]
         self.heap = self.heap[:length]
         self.minHeapify(self.heap, 0)
-        print("hola")
-        print("min " + str(min.obtenerId()))
-        for i in self.heap:
-            print(str(i.obtenerId()) + " weight " +str(i.weight) )
         del self.positions[min.obtenerId()]
-        print(self.positions)
         return min
 
     def heap_increase_key(self, value):
@@ -193,7 +188,6 @@ class Grafica:
             l = []
             for i in self.listaVertices.values():
                 l.append(i)
-            #l.append(self.listaVertices[a])
             heapDikstra = PriorityQueue(l)
             while (len(heapDikstra.heap) != 0):
                 current = heapDikstra.heap_extract_min()
@@ -265,3 +259,26 @@ for i in l:
 
 z.dijkstra(0)
 z.ResultadoDijkstra()
+
+print("Grafica X")
+x = Grafica()
+l = [[0, 5, 5, 0, 5, 7, 10],
+[5, 0, 0, 3, 8, 0, 5],
+[5, 0, 0, 20, 5, 0, 0],
+[0, 3, 20, 0, 7, 0, 0],
+[5, 8, 0, 7, 0, 0, 0],
+[7, 0, 0, 0, 0, 0, 1],
+[10, 5, 0, 0, 0, 1, 0]]
+
+row = 0
+for i in l:
+    column = 0
+    for j in i:
+        if j != 0:
+            x.insertarArista(row,column,j)
+        column = column + 1
+    row = row + 1
+
+x.dijkstra(0)
+x.ResultadoDijkstra()
+
