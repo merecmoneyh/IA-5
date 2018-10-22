@@ -22,27 +22,27 @@ class PriorityQueue:
         self.positions[tmp.obtenerId()] = self.parent(position)
         self.positions[parent.obtenerId()] = position
 
-    def minHeapify(self, l, i):
-        length = len(l)
+    def minHeapify(self, i):
+        length = len(self.heap)
         left = self.leftChild(i)
         right = self.rightChild(i)
         parent = i
-        if (left < length) and (l[left].weight < l[i].weight):
+        if (left < length) and (self.heap[left].weight < self.heap[i].weight):
             parent = left
-        if (right < length) and (l[right].weight < l[parent].weight):
+        if (right < length) and (self.heap[right].weight < self.heap[parent].weight):
             parent = right
         if parent != i:
             self.changePosition(parent)
-            tmp = l[parent]
-            l[parent] = l[i]
-            l[i] = tmp
-            return self.minHeapify(l, parent)
+            tmp = self.heap[parent]
+            self.heap[parent] = self.heap[i]
+            self.heap[i] = tmp
+            return self.minHeapify(parent)
 
     def build_minHeapify(self):
         length = len(self.heap)
         numberOfParents=(length//2) - 1
         for i in range(numberOfParents, -1, -1):
-            self.minHeapify(self.heap, i)
+            self.minHeapify(i)
         index = 0
         #add postions for every node
         for i in self.heap:
@@ -59,7 +59,7 @@ class PriorityQueue:
         self.heap = self.heap[:length]
         if len(self.heap) != 0:
             self.positions[self.heap[0].obtenerId()] = 0
-        self.minHeapify(self.heap, 0)
+        self.minHeapify(0)
         del self.positions[min.obtenerId()]
         return min
 
