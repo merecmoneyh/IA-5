@@ -16,19 +16,23 @@ class PriorityQueue:
     def rightChild(self, i):
         return 2*i + 2
 
+    def changePosition(self, position):
+        tmp = self.heap[position]
+        parent = self.heap[self.parent(position)]
+        self.positions[tmp.obtenerId()] = self.parent(position)
+        self.positions[parent.obtenerId()] = position
+
     def minHeapify(self, l, i):
         length = len(l)
         left = self.leftChild(i)
         right = self.rightChild(i)
         parent = i
-        #agregar nueva posición de nodo
-        if len(l) > 0:
-            self.positions[l[parent].obtenerId()] = parent
         if (left < length) and (l[left].weight < l[i].weight):
             parent = left
         if (right < length) and (l[right].weight < l[parent].weight):
             parent = right
         if parent != i:
+            self.changePosition(parent)
             tmp = l[parent]
             l[parent] = l[i]
             l[i] = tmp
@@ -53,13 +57,16 @@ class PriorityQueue:
         min = self.heap[0]
         self.heap[0] = self.heap[length]
         self.heap = self.heap[:length]
+        if len(self.heap) != 0:
+            self.positions[self.heap[0].obtenerId()] = 0
         self.minHeapify(self.heap, 0)
         del self.positions[min.obtenerId()]
         return min
 
-    def heap_increase_key(self, value):
+    def heap_decrease_key(self, value):
         position = self.positions[value.obtenerId()]
         while (position > 0) and (self.heap[self.parent(position)].weight > self.heap[position].weight):
+            self.changePosition(position)
             tmp = self.heap[position]
             self.heap[position] = self.heap[self.parent(position)]
             self.heap[self.parent(position)] = tmp
@@ -68,13 +75,14 @@ class PriorityQueue:
 '''Clase Vertice encargada de crear los vértices del Grafica, contiene métodos que permiten insertar
 vecinos, obetner el Identificador del vérctice y el peso que existe entre éste y alguno adyacente'''
 class Vertice:
-    def __init__(self,nombre):
+    def __init__(self, nombre, heuristica):
         self.id = nombre
+        self.heuristic = heuristica
         self.conexiones = {}
         self.visited = False
-        self.distance = -1
         self.parent = None
         self.weight = -1
+        self.weightH = -1
 
     def insertarVecino(self,vecino,Peso=0):
         self.conexiones[vecino] = Peso
@@ -89,23 +97,32 @@ class Vertice:
         if vertex in self.conexiones:
             self.parent = vertex
 
-    def setDistance(self, value):
-        self.distance = value
-
     def setVisited(self, value):
         self.visited = value
 
     def setWeight(self, value):
         self.weight = value
 
+    def setWeightHeuristic(self, value):
+        self.weightH = value
+
+    def setHeuristic(self, value):
+        self.heuristic = value
+
     def getParent(self):
         return self.parent
 
-    def getDistance(self):
-        return self.distance
-
     def getVisited(self):
         return self.visited
+
+    def getHeuristic(self):
+        return self.heuristic
+
+    def getWeightHeuristic(self):
+        return self.weightH
+
+    def getConexiones(self):
+        return self.conexiones
 
 '''Clase Grafica es donde se crea el Grafica con todos sus vértices, tiene sus métodos que permiten insertar un nuevo vértice,
 una nueva arista, el método __iter__ para facilitar la iteración sobre todos los objetos vértice de un Grafica en particular.'''
@@ -115,9 +132,9 @@ class Grafica:
         self.numVertices = 0
         self.listaBellman = {}
 
-    def insertarVertice(self,nombre):
+    def insertarVertice(self, nombre, heuristica = 0):
         self.numVertices = self.numVertices + 1
-        nuevoVertice = Vertice(nombre)
+        nuevoVertice = Vertice(nombre, heuristica)
         self.listaVertices[nombre] = nuevoVertice
         return nuevoVertice
 
@@ -162,6 +179,7 @@ class Grafica:
                     if(nuevaDis<self.listaBellman[c.obtenerId()][0]):
                         print("Error: Ciclo Negativo")
                         return False
+
     def ResultadoBellman(self):
         for i in self.listaBellman: print("Vertice "+str(i)+" Peso "+str(self.listaBellman[i][0])+" Predecesor "+str(self.listaBellman[i][1]))
 
@@ -170,16 +188,19 @@ class Grafica:
             vertex = self.listaVertices[s]
             for i in self.listaVertices.values():
                 i.setWeight(math.inf)
+                i.setWeightHeuristic(math.inf)
                 i.setVisited(False)
                 i.setParent(None)
             vertex.setWeight(0)
+            vertex.setWeightHeuristic(0)
+            vertex.setHeuristic(0)
 
     def relax(self, a, b, heap):
         w = a.obtenerPeso(b)
         if b.weight > (a.weight + w):
             b.weight = a.weight + w
             b.setParent(a)
-            heap.heap_increase_key(b)
+            heap.heap_decrease_key(b)
 
 
     def dijkstra(self, a):
@@ -191,8 +212,11 @@ class Grafica:
             heapDikstra = PriorityQueue(l)
             while (len(heapDikstra.heap) != 0):
                 current = heapDikstra.heap_extract_min()
-                for i in current.conexiones.keys():
-                    self.relax(current, i, heapDikstra)
+                for i in current.getConexiones().keys():
+                    if i.getVisited() != True:
+                        self.relax(current, i, heapDikstra)
+                current.setVisited(True)
+            self.ResultadoDijkstra()
 
     def ResultadoDijkstra(self):
         for i in self.listaVertices.values():
@@ -202,83 +226,48 @@ class Grafica:
                 continue
             print(" parent " + str(None))
 
-#Crea el Grafica
-g = Grafica()
-#Inserta Vertices
-for i in range(1,6):
-    g.insertarVertice(i)
-#Inserta Aristas
-g.insertarArista(1,2,7)
-g.insertarArista(1,3,9)
-g.insertarArista(1,6,14)
-g.insertarArista(2,1,7)
-g.insertarArista(2,3,10)
-g.insertarArista(2,4,15)
-g.insertarArista(3,1,9)
-g.insertarArista(3,2,10)
-g.insertarArista(3,4,11)
-g.insertarArista(3,6,2)
-g.insertarArista(4,2,15)
-g.insertarArista(4,3,11)
-g.insertarArista(4,5,6)
-g.insertarArista(5,4,6)
-g.insertarArista(5,6,9)
-g.insertarArista(6,1,14)
-g.insertarArista(6,3,2)
-g.insertarArista(6,5,9)
+    def rebuildPath(self, a):
+        actual = a
+        camino = []
+        camino.append(actual.id)
+        while actual.getParent() != None:
+            actual = actual.getParent()
+            camino.append(actual)
+            actual = self.listaVertices[actual]
+        return camino
 
+    def minHeuristic(self, oSet):
+        a = []
+        b = []
+        for i in oSet:
+            if i in self.listaVertices:
+                aux = self.listaVertices[i]
+                a.append(aux.id)
+                b.append(aux.weightH)
+        c = min(b)
+        c = b.index(c)
+        return a[c]
 
-print("Graph")
-g.dijkstra(1)
-g.ResultadoDijkstra()
+    def aStar(self, a, b):
+        oSet = []
+        if a in self.listaVertices:
+            self.initialize_single_source(a)
+            oSet.append(a)
 
-print("Grafo z")
-
-z = Grafica()
-l = [[0, 4, 0, 0, 0, 0, 0, 8, 0],
-[4, 0, 8, 0, 0, 0, 0, 11, 0],
-[0, 8, 0, 7, 0, 4, 0, 0, 2],
-[0, 0, 7, 0, 9, 14, 0, 0, 0],
-[0, 0, 0, 9, 0, 10, 0, 0, 0],
-[0, 0, 4, 14, 10, 0, 2, 0, 0],
-[0, 0, 0, 0, 0, 2, 0, 1, 6],
-[8, 11, 0, 0, 0, 0, 1, 0, 7],
-[0, 0, 2, 0, 0, 0, 6, 7, ],
-]
-
-for i in range(9):
-    z.insertarVertice(i)
-row = 0
-for i in l:
-    column = 0
-    for j in i:
-        if j != 0:
-            z.insertarArista(row,column,j)
-        column = column + 1
-    row = row + 1
-
-z.dijkstra(0)
-z.ResultadoDijkstra()
-
-print("Grafica X")
-x = Grafica()
-l = [[0, 5, 5, 0, 5, 7, 10],
-[5, 0, 0, 3, 8, 0, 5],
-[5, 0, 0, 20, 5, 0, 0],
-[0, 3, 20, 0, 7, 0, 0],
-[5, 8, 0, 7, 0, 0, 0],
-[7, 0, 0, 0, 0, 0, 1],
-[10, 5, 0, 0, 0, 1, 0]]
-
-row = 0
-for i in l:
-    column = 0
-    for j in i:
-        if j != 0:
-            x.insertarArista(row,column,j)
-        column = column + 1
-    row = row + 1
-
-x.dijkstra(0)
-x.ResultadoDijkstra()
-
+            while len(oSet) > 0:
+                aux = self.minHeuristic(oSet)
+                actual = self.listaVertices[aux]
+                if actual.id == b:
+                    return self.rebuildPath(actual)
+                oSet.remove(aux)
+                actual.setVisited(True)
+                for i in actual.conexiones.keys():
+                    vecino = self.listaVertices[i.id]
+                    if vecino.getVisited() == False:
+                        if i.id not in oSet:
+                            oSet.append(i.id)
+                        if (actual.weight + actual.conexiones[i]) < vecino.weight:
+                            vecino.parent = actual.id
+                            vecino.weight = actual.weight + actual.conexiones[i]
+                            vecino.weightH = vecino.weight + vecino.heuristic
+        return False
