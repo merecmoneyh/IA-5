@@ -63,7 +63,7 @@ class Grafica:
             lista.append(math.inf)
             lista.append(None)
             self.listaBellman[v.obtenerId()]=lista
-            self.listaBellman[origen][0]=0
+        self.listaBellman[origen][0]=0
         '''Repetir |V | − 1 veces'''
         for i in range(self.numVertices-1):
             '''Para cada arista (u, v) con peso w:'''
