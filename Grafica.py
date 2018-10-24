@@ -27,7 +27,10 @@ class Grafica:
 
     def insertarVertices(self, vertices):
         for vertice in vertices:
-            self.insertarVertice(vertice)
+            if isinstance(vertice, list):
+                self.insertarVertice(vertice[0], vertice[1])
+            else:
+                self.insertarVertice(vertice)
 
     def insertarAristas(self, aristas):
         for arista in aristas:
@@ -202,6 +205,10 @@ class Grafica:
         return False
 
 #Test
-g = Grafica()
-g.leerArchivo("test_graph.json")
-g.BellmanFord(1)
+# g = Grafica()
+# g.leerArchivo("test_graph.json")
+# g.BellmanFord(1)
+
+g2 = Grafica()
+g2.leerArchivo("test_graph2.json")
+print(g2.aStar(0,6))
