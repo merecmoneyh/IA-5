@@ -1,3 +1,16 @@
+"""Versión de Python utilizada 3.7.0 (Recomendado utilizar la consola de Linux o cmd en Windows)
+
+	Integrantes:
+	- Aco Guerrero Iván Rogelio
+	- Ricardo Hernández Gómez
+	- Hernández Arrieta Carlos Alberto
+	- Hernández García Luis Angel
+
+	Éste es un programa desmuestra el funcionamiento de los algoritmos de búsqueda de rutas:
+    -Dijkstra
+    -Bellman-Ford
+    -A*
+"""
 from Grafica import Grafica
 
 def main():

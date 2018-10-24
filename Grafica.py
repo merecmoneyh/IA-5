@@ -206,12 +206,3 @@ class Grafica:
                             vecino.weight = actual.weight + actual.conexiones[i]
                             vecino.weightH = vecino.weight + vecino.heuristic
         return False
-
-#Test
-# g = Grafica()
-# g.leerArchivo("test_graph.json")
-# g.BellmanFord(1)
-
-g2 = Grafica()
-g2.leerArchivo("test_graph2.json")
-print(g2.aStar(0,6))
