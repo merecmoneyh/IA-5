@@ -58,6 +58,7 @@ class Grafica:
     def BellmanFord(self, origen):
         '''Asignar a cada nodo una distancia un nodo predecesor tentativos: (0 para el nodo inicial,
         ∞ para todos los nodos restantes); (predecesor nulo para todos los nodos)'''
+        resultado = []
         for v in self:
             lista=[]
             lista.append(math.inf)
@@ -190,7 +191,8 @@ class Grafica:
                 aux = self.minHeuristic(oSet)
                 actual = self.listaVertices[aux]
                 if actual.id == b:
-                    return self.rebuildPath(actual)
+                    print(self.rebuildPath(actual))
+                    return
                 oSet.remove(aux)
                 actual.setVisited(True)
                 for i in actual.conexiones.keys():
