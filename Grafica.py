@@ -58,7 +58,6 @@ class Grafica:
     def BellmanFord(self, origen):
         '''Asignar a cada nodo una distancia un nodo predecesor tentativos: (0 para el nodo inicial,
         ∞ para todos los nodos restantes); (predecesor nulo para todos los nodos)'''
-        resultado = []
         for v in self:
             lista=[]
             lista.append(math.inf)
@@ -162,11 +161,13 @@ class Grafica:
     def rebuildPath(self, a):
         actual = a
         camino = []
-        camino.append(actual.id)
+        peso = str(actual.weight)
+        camino.append(actual.obtenerId())
         while actual.getParent() != None:
             actual = actual.getParent()
-            camino.append(actual)
+            camino.insert(0, actual)
             actual = self.listaVertices[actual]
+        print("Peso: " + peso)
         return camino
 
     def minHeuristic(self, oSet):

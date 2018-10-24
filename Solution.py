@@ -29,14 +29,23 @@ def main():
         if grafica:
             if opcion == "2":
                 origen = int(input("\t\tOrigen: "))
-                grafica.dijkstra(origen)
+                try:
+                    grafica.dijkstra(origen)
+                except:
+                    print("\t\tEl origen no existe")
             elif opcion == "3":
                 origen = int(input("\t\tOrigen: "))
-                grafica.BellmanFord(origen)
+                try:
+                    grafica.BellmanFord(origen)
+                except:
+                    print("\t\tEl origen no existe")
             elif opcion == "4":
                 origen = int(input("\t\tOrigen: "))
                 destino = int(input("\t\tDestino: "))
-                grafica.aStar(origen, destino)
+                try:
+                    grafica.aStar(origen, destino)
+                except:
+                    print("\t\tDatos incorrectos")
         else:
             print("\n\tElija una opción válida\n")
 
