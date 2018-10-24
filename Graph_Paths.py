@@ -1,4 +1,4 @@
-import math
+import math, json
 
 '''
 clase PriorityQueue encargada de crear una estructura Heap que proporciona
@@ -170,6 +170,29 @@ class Grafica:
         self.numVertices = 0
         self.listaBellman = {}
 
+    '''
+    Lee un archivo json. Se leen los vértices de una lista, las aristas de una lista de listas.
+    Cada lista de la lista de aristas cuenta con 3 índices:
+    -origen
+    -destino
+    -peso
+    '''
+    def leerArchivo(self, file_name):
+        file_data = open(file_name).read()
+        data = json.loads(file_data)
+        lista_vertices = data["vertices"]
+        lista_aristas = data["aristas"]
+        self.insertarVertices(lista_vertices)
+        self.insertarAristas(lista_aristas)
+
+    def insertarVertices(self, vertices):
+        for vertice in vertices:
+            self.insertarVertice(vertice)
+
+    def insertarAristas(self, aristas):
+        for arista in aristas:
+            self.insertarArista(arista[0], arista[1], arista[2])
+
     def insertarVertice(self, nombre, heuristica = 0):
         self.numVertices = self.numVertices + 1
         nuevoVertice = Vertice(nombre, heuristica)
@@ -337,3 +360,8 @@ class Grafica:
                             vecino.weight = actual.weight + actual.conexiones[i]
                             vecino.weightH = vecino.weight + vecino.heuristic
         return False
+
+#Test
+g = Grafica()
+g.leerArchivo("test_graph.json")
+g.BellmanFord(1)
