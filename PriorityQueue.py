@@ -94,6 +94,8 @@ class PriorityQueue:
         position = self.positions[value.obtenerId()]
         #si el vertice no esta en la posición cero y su peso es menor al  de su padre
         #cambiar las posiciones
+        #lo de posición cero es debido a que esa posición signfica en el heap que
+        #es más mínimo en valor por ello ya no se checa
         while (position > 0) and (self.heap[self.parent(position)].weight > self.heap[position].weight):
             self.changePosition(position)
             tmp = self.heap[position]

@@ -26,10 +26,10 @@ def main():
     \n\t3. Bellman-Ford\
     \n\t4. A*\
     \n\t5. Salir")
-    
+
     while opcion != "5":
         opcion = input("\n\tOpcion: ")
-        
+
         if opcion == "1":
             try:
                 file_name = input("\t\tNombre del archivo json: ")
