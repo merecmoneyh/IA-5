@@ -1,32 +1,55 @@
 class PriorityQueue:
-
+    '''
+    Esta clase define a la estructura heap utilizada para la realización del algoritmo
+    de Dijkstra.     
+    '''
     def __init__(self, heap):
         self.heap = heap
         self.positions = {}
         self.build_minHeapify()
 
     def parent(self, i):
+        '''
+        Este método permite obtener el valor del índice del padre del vértice indicado.
+
+        :return: Integer
+        '''
         return (i-1)//2
 
     def leftChild(self, i):
+        '''
+        Este método permite obtener el valor del índice del hijo izquierdo del vértice indicado.
+
+        :return: Integer
+        '''
         return 2*i + 1
 
     def rightChild(self, i):
+        '''
+        Este método permite obtener el valor del índice del hijo derecho del vértice indicado.
+
+        :return: Integer
+        '''
         return 2*i + 2
 
-    '''
-    Cambiar la posición de una nodo con su padre dentro del Heap
-    '''
     def changePosition(self, position):
+        '''
+        Cambiar la posición de una nodo con su padre dentro del Heap
+
+        :return: None
+        '''
         tmp = self.heap[position]
         parent = self.heap[self.parent(position)]
         self.positions[tmp.obtenerId()] = self.parent(position)
         self.positions[parent.obtenerId()] = position
 
-    '''
-    Método para intercambiar los hijos con su padre si su peso es menor
-    '''
     def minHeapify(self, i):
+        '''
+        Método para intercambiar los hijos con su padre si su peso es menor
+
+        :i: Integer
+        :return: None
+        '''
         length = len(self.heap)
         left = self.leftChild(i)
         right = self.rightChild(i)
@@ -53,14 +76,14 @@ class PriorityQueue:
             self.positions[i.obtenerId()] = index
             index = index + 1
 
-    '''
-    Extraer el  vertice con menor peso y reconstruir el heap para que seguir
-    teniendo el vertice con menor peso en la posición 0
-
-    return: el vertice con el menor peso si le heap tiene elementos
-    si no manda un menos uno
-    '''
     def heap_extract_min(self):
+        '''
+        Extraer el  vertice con menor peso y reconstruir el heap para que seguir
+        teniendo el vertice con menor peso en la posición 0
+
+        :return: el vertice con el menor peso si le heap tiene elementos
+        si no manda un menos uno
+        '''
         # si el heap no tiene elementos, entonces no se puede extraer ningun
         #elemento
         if len(self.heap) == 0:
@@ -83,13 +106,13 @@ class PriorityQueue:
         del self.positions[min.obtenerId()]
         return min
 
-    '''
-    Este método es para mantener el vertice con el menor peso en la posición cero
-    cuando cambiamos el peso del vertice en el método relax de la gráfica
-
-    Args: value: vertice que le fue cambiado su peso
-    '''
     def heap_decrease_key(self, value):
+        '''
+        Este método es para mantener el vertice con el menor peso en la posición cero
+        cuando cambiamos el peso del vertice en el método relax de la gráfica
+
+        Args: value: vertice que le fue cambiado su peso
+        '''
         #obtenemos la posición del vertice que le fue cambiado su peso en relax
         position = self.positions[value.obtenerId()]
         #si el vertice no esta en la posición cero y su peso es menor al  de su padre

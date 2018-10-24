@@ -14,7 +14,18 @@
 from Grafica import Grafica
 
 def main():
-    """Función principal main	"""
+    '''
+    Función principal main.	
+
+    Esta función es la encargada de proporcionar al usuario una interfaz desde la cual poder
+    seleccionar cada uno de los algoritmos implementados. 
+        Antes de seleccionar cualquier opción de algoritmo es necesario cargar la gráfica
+    deseada desde un archivo .json, desde el cuál se debe definir "vertices" como una lista
+    y "aristas" como una lista de listas, cada lista en cuestión con el siguiente formato:
+    [origen, destino, peso].
+
+    :return: None
+    '''
     # Variables:
     opcion = 0
     grafica = None

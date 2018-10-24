@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module Grafica</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>Grafica</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/mnt/c/Users/gomri/Documents/UNAM/S%C3%A9ptimoSemestre/InteligenciaArtificial/Programas/IA-5/Grafica.py">/mnt/c/Users/gomri/Documents/UNAM/SéptimoSemestre/InteligenciaArtificial/Programas/IA-5/Grafica.py</a></font></td></tr></table>
+    <p></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="json.html">json</a><br>
+</td><td width="25%" valign=top><a href="math.html">math</a><br>
+</td><td width="25%" valign=top></td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="builtins.html#object">builtins.object</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="Grafica.html#Grafica">Grafica</a>
+</font></dt></dl>
+</dd>
+</dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="Grafica">class <strong>Grafica</strong></a>(<a href="builtins.html#object">builtins.object</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>Clase&nbsp;<a href="#Grafica">Grafica</a>&nbsp;es&nbsp;donde&nbsp;se&nbsp;crea&nbsp;el&nbsp;<a href="#Grafica">Grafica</a>&nbsp;con&nbsp;todos&nbsp;sus&nbsp;vértices,&nbsp;tiene&nbsp;sus&nbsp;métodos&nbsp;<br>
+que&nbsp;permiten&nbsp;insertar&nbsp;un&nbsp;nuevo&nbsp;vértice,&nbsp;una&nbsp;nueva&nbsp;arista,&nbsp;el&nbsp;método&nbsp;__iter__&nbsp;para&nbsp;<br>
+facilitar&nbsp;la&nbsp;iteración&nbsp;sobre&nbsp;todos&nbsp;los&nbsp;objetos&nbsp;vértice&nbsp;de&nbsp;un&nbsp;<a href="#Grafica">Grafica</a>&nbsp;en&nbsp;particular.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="Grafica-BellmanFord"><strong>BellmanFord</strong></a>(self, origen)</dt><dd><tt>Es&nbsp;un&nbsp;algoritmo&nbsp;que&nbsp;determina&nbsp;la&nbsp;ruta&nbsp;más&nbsp;corta&nbsp;desde&nbsp;un<br>
+nodo&nbsp;hacia&nbsp;todos&nbsp;los&nbsp;demás&nbsp;en&nbsp;una&nbsp;gráfica&nbsp;dirigida&nbsp;con&nbsp;pesos&nbsp;asociados&nbsp;a&nbsp;las&nbsp;aristas.<br>
+&nbsp;<br>
+:origen:&nbsp;Integer<br>
+:return:&nbsp;None</tt></dd></dl>
+
+<dl><dt><a name="Grafica-ResultadoDijkstra"><strong>ResultadoDijkstra</strong></a>(self)</dt><dd><tt>Método&nbsp;para&nbsp;imprimir&nbsp;el&nbsp;resultado&nbsp;del&nbsp;algoritmo&nbsp;de&nbsp;dijkstra.<br>
+&nbsp;<br>
+:return:&nbsp;None</tt></dd></dl>
+
+<dl><dt><a name="Grafica-__init__"><strong>__init__</strong></a>(self)</dt><dd><tt>Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</tt></dd></dl>
+
+<dl><dt><a name="Grafica-__iter__"><strong>__iter__</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="Grafica-aStar"><strong>aStar</strong></a>(self, a, b)</dt><dd><tt>Este&nbsp;método&nbsp;ejecuta&nbsp;la&nbsp;búsqueda&nbsp;del&nbsp;camino&nbsp;más&nbsp;obtimo&nbsp;desde&nbsp;'a'&nbsp;a&nbsp;'b'<br>
+utilizando&nbsp;el&nbsp;algoritmo&nbsp;A*.<br>
+&nbsp;<br>
+:a:&nbsp;Vertice<br>
+:b:&nbsp;Vertice</tt></dd></dl>
+
+<dl><dt><a name="Grafica-dijkstra"><strong>dijkstra</strong></a>(self, a)</dt><dd><tt>Método&nbsp;para&nbsp;calcular&nbsp;el&nbsp;camino&nbsp;más&nbsp;corto&nbsp;para&nbsp;cada&nbsp;vértice<br>
+dado&nbsp;un&nbsp;nodo&nbsp;inicial<br>
+&nbsp;<br>
+Args:&nbsp;a:&nbsp;nodo&nbsp;inicial<br>
+&nbsp;<br>
+:a:&nbsp;Vertice<br>
+:return:&nbsp;None</tt></dd></dl>
+
+<dl><dt><a name="Grafica-initialize_single_source"><strong>initialize_single_source</strong></a>(self, s)</dt><dd><tt>Metodo&nbsp;para&nbsp;inicializar&nbsp;todos&nbsp;los&nbsp;vertices&nbsp;con&nbsp;peso<br>
+infinito,&nbsp;que&nbsp;no&nbsp;hayan&nbsp;sido&nbsp;visitados&nbsp;aún,&nbsp;no&nbsp;tengan&nbsp;Padre<br>
+&nbsp;<br>
+:s:&nbsp;Vertice<br>
+:return:&nbsp;None</tt></dd></dl>
+
+<dl><dt><a name="Grafica-insertarArista"><strong>insertarArista</strong></a>(self, origen, destino, costo=0)</dt><dd><tt>Este&nbsp;método&nbsp;permite&nbsp;agregar&nbsp;valores&nbsp;de&nbsp;aristas&nbsp;a&nbsp;la&nbsp;gráfica.<br>
+Si&nbsp;no&nbsp;se&nbsp;especifica&nbsp;un&nbsp;costo&nbsp;este&nbsp;se&nbsp;asgina&nbsp;por&nbsp;defecto&nbsp;como&nbsp;0.<br>
+&nbsp;<br>
+:origen:&nbsp;Integer<br>
+:destino:&nbsp;Integer<br>
+:costo:&nbsp;Integer<br>
+&nbsp;<br>
+:return:&nbsp;None</tt></dd></dl>
+
+<dl><dt><a name="Grafica-insertarAristas"><strong>insertarAristas</strong></a>(self, aristas)</dt><dd><tt>Este&nbsp;método&nbsp;lee&nbsp;las&nbsp;aristas&nbsp;de&nbsp;una&nbsp;lista&nbsp;y&nbsp;los&nbsp;agrega&nbsp;a&nbsp;la&nbsp;Gráfica.<br>
+&nbsp;<br>
+:aristas:&nbsp;List<br>
+:return:&nbsp;None</tt></dd></dl>
+
+<dl><dt><a name="Grafica-insertarVertice"><strong>insertarVertice</strong></a>(self, nombre, heuristica=0)</dt><dd><tt>Este&nbsp;método&nbsp;permite&nbsp;agregar&nbsp;un&nbsp;vértices&nbsp;a&nbsp;la&nbsp;gráfica.<br>
+Si&nbsp;no&nbsp;se&nbsp;proporciona&nbsp;un&nbsp;valor&nbsp;para&nbsp;la&nbsp;heurística&nbsp;este&nbsp;se&nbsp;asigna&nbsp;por&nbsp;defecto&nbsp;como&nbsp;0.<br>
+&nbsp;<br>
+:nombre:&nbsp;Integer<br>
+:heuristica:&nbsp;Integer<br>
+&nbsp;<br>
+:return:&nbsp;Vertice</tt></dd></dl>
+
+<dl><dt><a name="Grafica-insertarVertices"><strong>insertarVertices</strong></a>(self, vertices)</dt><dd><tt>Este&nbsp;método&nbsp;lee&nbsp;los&nbsp;vértices&nbsp;de&nbsp;una&nbsp;lista&nbsp;y&nbsp;los&nbsp;agrega&nbsp;a&nbsp;la&nbsp;Gráfica.<br>
+El&nbsp;proceso&nbsp;varía&nbsp;si&nbsp;se&nbsp;incluyen&nbsp;valores&nbsp;de&nbsp;heurística&nbsp;para&nbsp;cada&nbsp;vértice.<br>
+&nbsp;<br>
+:vertices:&nbsp;List<br>
+:return:&nbsp;None</tt></dd></dl>
+
+<dl><dt><a name="Grafica-leerArchivo"><strong>leerArchivo</strong></a>(self, file_name)</dt><dd><tt>Lee&nbsp;un&nbsp;archivo&nbsp;json.&nbsp;Se&nbsp;leen&nbsp;los&nbsp;vértices&nbsp;de&nbsp;una&nbsp;lista,&nbsp;las&nbsp;aristas&nbsp;de&nbsp;una&nbsp;lista&nbsp;de&nbsp;listas.<br>
+Cada&nbsp;lista&nbsp;de&nbsp;la&nbsp;lista&nbsp;de&nbsp;aristas&nbsp;cuenta&nbsp;con&nbsp;3&nbsp;índices:<br>
+-origen<br>
+-destino<br>
+-peso<br>
+&nbsp;<br>
+:file_name:&nbsp;String<br>
+:return:&nbsp;None</tt></dd></dl>
+
+<dl><dt><a name="Grafica-minHeuristic"><strong>minHeuristic</strong></a>(self, oSet)</dt></dl>
+
+<dl><dt><a name="Grafica-rebuildPath"><strong>rebuildPath</strong></a>(self, a)</dt><dd><tt>Método&nbsp;para&nbsp;reconstruir&nbsp;los&nbsp;caminos&nbsp;de&nbsp;los&nbsp;algorismos&nbsp;de&nbsp;Dijkstra&nbsp;y&nbsp;Bellman-Ford,<br>
+desde&nbsp;el&nbsp;último&nbsp;nodo&nbsp;'a'.<br>
+&nbsp;<br>
+:a:&nbsp;Vertice&nbsp;<br>
+:return:&nbsp;List</tt></dd></dl>
+
+<dl><dt><a name="Grafica-relax"><strong>relax</strong></a>(self, a, b, heap)</dt><dd><tt>Método&nbsp;para&nbsp;checar&nbsp;si&nbsp;cambiamos&nbsp;el&nbsp;peso&nbsp;de&nbsp;un&nbsp;vertice&nbsp;si&nbsp;el&nbsp;peso<br>
+del&nbsp;vertice&nbsp;"a"&nbsp;sumado&nbsp;con&nbsp;el&nbsp;peso&nbsp;de&nbsp;la&nbsp;arista(a,b)&nbsp;es&nbsp;menor&nbsp;al<br>
+peso&nbsp;actual&nbsp;de&nbsp;"b"<br>
+&nbsp;<br>
+Args;&nbsp;a:&nbsp;posible&nbsp;padre<br>
+b:&nbsp;nodo&nbsp;que&nbsp;se&nbsp;le&nbsp;podría&nbsp;cambiar&nbsp;su&nbsp;peso<br>
+&nbsp;<br>
+:a:&nbsp;Vertice<br>
+:b:&nbsp;Vertice<br>
+:heap:&nbsp;PriorityQueue<br>
+:return:&nbsp;None</tt></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+</td></tr></table></td></tr></table>
+</body></html>
